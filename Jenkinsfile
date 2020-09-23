@@ -22,27 +22,24 @@ pipeline {
             }
         }
         stage('Build Docker Image') {
-            script {
-                git checkout master
-            }
-            when {
-                branch 'master'
-            }
+           
+            // when {
+            //     branch 'master'
+            // }
             steps {
+                git checkout master
                 echo '=== Building Petclinic Docker Image ==='
                 script {
                     app = docker.build("renegmedal/petclinic-spinnaker-jenkins")
                 }
             }
         }
-        stage('Push Docker Image') {
-            script {
-                git checkout master
-            }
-            when {
-                branch 'master'
-            }
+        stage('Push Docker Image') {           
+            // when {
+            //     branch 'master'
+            // }
             steps {
+                git checkout master
                 echo '=== Pushing Petclinic Docker Image ==='
                 script {
                     GIT_COMMIT_HASH = sh (script: "git log -n 1 --pretty=format:'%H'", returnStdout: true)
