@@ -9,9 +9,7 @@ pipeline {
        triggers {
         pollSCM "* * * * *"
        }
-    stages {
-        
-        def app
+    stages { 
 
         stage('Build Application') { 
             steps {
@@ -39,9 +37,9 @@ pipeline {
                 echo '=== Building Petclinic Docker Image ==='
                 script {
                     // sh 'git checkout master'
-                    app = docker.build("renegmedal/petclinic-spinnaker-jenkins")
+                    // app = docker.build("renegmedal/petclinic-spinnaker-jenkins")
                     // sh 'docker build --tag renegmedal/petclinic-spinnaker-jenkins .'
-                    // dockerImage = docker.build registry + ":$BUILD_NUMBER"                     
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"                     
                 }
             }
         }
@@ -64,14 +62,14 @@ pipeline {
                     //     sh 'docker push renegmedal/petclinic-spinnaker-jenkins:latest'
                     // }
 
-                    // docker.withRegistry( '', registryCredential ) {
-                    //     dockerImage.push()
-                    // }
-
-                    docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
-                        app.push("${env.BUILD_NUMBER}")
-                        app.push("latest")
+                    docker.withRegistry( '', registryCredential ) {
+                        dockerImage.push()
                     }
+
+                    // docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
+                    //     app.push("${env.BUILD_NUMBER}")
+                    //     app.push("latest")
+                    // }
 
                 }
             }
