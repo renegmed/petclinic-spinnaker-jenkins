@@ -1,5 +1,7 @@
 pipeline {
     environment {
+        registry = "renegmedal/petclinic-spinnaker-jenkins"
+        registryCredential = 'dockerHubCredentials'
         dockerImage = ''
     }
     agent any
@@ -34,8 +36,8 @@ pipeline {
                 script {
                     // sh 'git checkout master'
                     // app = docker.build("renegmedal/petclinic-spinnaker-jenkins")
-                    sh 'docker build --tag renegmedal/petclinic-spinnaker-jenkins .'
-                    
+                    // sh 'docker build --tag renegmedal/petclinic-spinnaker-jenkins .'
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
                 }
             }
         }
@@ -54,17 +56,25 @@ pipeline {
                     //     app.push("latest")
                     // }
                     // sh 'docker push renegmedal/petclinic-spinnaker-jenkins'
-                    docker.withRegistry('', 'dockerHubCredentials') {
-                        sh 'docker push renegmedal/petclinic-spinnaker-jenkins'
+                    // docker.withRegistry('https://registry.hub.docker.com', 'dockerHubCredentials') {
+                    //     sh 'docker push renegmedal/petclinic-spinnaker-jenkins:latest'
+                    // }
+
+                    docker.withRegistry( '', registryCredential ) {
+                        dockerImage.push()
                     }
+
                 }
             }
         }
         stage('Remove local images') {
             steps {
                 echo '=== Delete the local docker images ==='
-                sh("docker rmi -f renegmedal/petclinic-spinnaker-jenkins:latest || :")
-                sh("docker rmi -f renegmedal/petclinic-spinnaker-jenkins:$SHORT_COMMIT || :")
+                // sh("docker rmi -f renegmedal/petclinic-spinnaker-jenkins:latest || :")
+                // sh("docker rmi -f renegmedal/petclinic-spinnaker-jenkins:$SHORT_COMMIT || :")
+
+                sh "docker rmi $registry:$BUILD_NUMBER"
+
             }
         }
     }
