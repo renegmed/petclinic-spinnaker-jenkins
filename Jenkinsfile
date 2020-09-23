@@ -30,7 +30,8 @@ pipeline {
                 echo '=== Building Petclinic Docker Image ==='
                 script {
                     git checkout master
-                    app = docker.build("renegmedal/petclinic-spinnaker-jenkins")
+                    // app = docker.build("renegmedal/petclinic-spinnaker-jenkins")
+                    docker build --tag renegmedal/petclinic-spinnaker-jenkins .
                 }
             }
         }
