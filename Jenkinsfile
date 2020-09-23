@@ -1,4 +1,7 @@
 pipeline {
+    environment {
+        dockerImage = ''
+    }
     agent any
        triggers {
         pollSCM "* * * * *"
@@ -32,6 +35,7 @@ pipeline {
                     // sh 'git checkout master'
                     // app = docker.build("renegmedal/petclinic-spinnaker-jenkins")
                     sh 'docker build --tag renegmedal/petclinic-spinnaker-jenkins .'
+                    
                 }
             }
         }
@@ -49,7 +53,10 @@ pipeline {
                     //     app.push("$SHORT_COMMIT")
                     //     app.push("latest")
                     // }
-                    sh 'docker push renegmedal/petclinic-spinnaker-jenkins'
+                    // sh 'docker push renegmedal/petclinic-spinnaker-jenkins'
+                    docker.withRegistry('', 'dockerHubCredentials') {
+                        sh 'docker push renegmedal/petclinic-spinnaker-jenkins'
+                    }
                 }
             }
         }
