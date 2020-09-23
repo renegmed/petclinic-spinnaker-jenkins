@@ -22,6 +22,9 @@ pipeline {
             }
         }
         stage('Build Docker Image') {
+            script {
+                git checkout master
+            }
             when {
                 branch 'master'
             }
@@ -33,6 +36,9 @@ pipeline {
             }
         }
         stage('Push Docker Image') {
+            script {
+                git checkout master
+            }
             when {
                 branch 'master'
             }
