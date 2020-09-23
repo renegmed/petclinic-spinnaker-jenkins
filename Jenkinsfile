@@ -3,15 +3,16 @@ pipeline {
         registry = "renegmedal/petclinic-spinnaker-jenkins"
         registryCredential = 'dockerHubCredentials'
         dockerImage = '' 
-    }
-    
-    def app
+    } 
 
     agent any
        triggers {
         pollSCM "* * * * *"
        }
     stages {
+        
+        def app
+
         stage('Build Application') { 
             steps {
                 echo '=== Building Petclinic Application ==='
