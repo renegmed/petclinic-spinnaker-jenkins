@@ -33,6 +33,7 @@ pipeline {
             // when {
             //     branch 'master'
             // }
+            agent any
             steps {               
                 echo '=== Building and Pushing Petclinic Docker Image ==='
                 script {
@@ -47,8 +48,12 @@ pipeline {
                     // sh 'docker build --tag renegmedal/petclinic-spinnaker-jenkins .'
                     // dockerImage = docker.build registry + ":$BUILD_NUMBER"      
 
-                    sh 'make build'
-                    sh 'make push'               
+                    // sh 'make build'
+                    // sh 'make push'    
+                    docker.withRegistry('', 'dockerHubCredentials') {
+                        def customImage = docker.build("renegmedal/petclinic-spinnaker-jenkins:latest")
+                        customImage.push()
+                    }           
                 }
             }
         }
