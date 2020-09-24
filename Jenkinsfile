@@ -1,3 +1,4 @@
+def customImage = null
 pipeline {
     environment {
         registry = "renegmedal/petclinic-spinnaker-jenkins"
@@ -51,11 +52,11 @@ pipeline {
                     // sh 'make build'
                     // sh 'make push'    
                     docker.withRegistry('', 'dockerHubCredentials') {
-                        def customImage = docker.build("renegmedal/petclinic-spinnaker-jenkins:latest")
-                        customerImage.inside {
+                        customImage = docker.build("renegmedal/petclinic-spinnaker-jenkins:latest")
+                        // customerImage.inside {
                             //sh 'docker push renegmedal/petclinic-spinnaker-jenkins:latest'
                             customImage.push()
-                        }
+                        // }
                        
                     }           
                 }
