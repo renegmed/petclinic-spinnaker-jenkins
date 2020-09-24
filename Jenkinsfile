@@ -35,12 +35,12 @@ pipeline {
             // }
             steps {               
                 echo '=== Building and Pushing Petclinic Docker Image ==='
-                node {
+                script {
                     // sh 'git checkout master'
                  
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerHubCredentials') {
                         def app = docker.build("renegmedal/petclinic-spinnaker-jenkins")
-                        app.push()
+                        // app.push()
                         // app.push("latest")
                     }
 
