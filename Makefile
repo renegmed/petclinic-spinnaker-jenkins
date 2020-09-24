@@ -1,7 +1,6 @@
 build:
-	docker build --tag renegmedal/petclinic-spinnaker-jenkins .
+	sudo docker build --tag renegmedal/petclinic-spinnaker-jenkins .
 
 push:
-	docker push renegmedal/petclinic-spinnaker-jenkins:latest
-	
-		
+	sudo docker push renegmedal/petclinic-spinnaker-jenkins:latest
+
