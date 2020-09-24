@@ -38,14 +38,17 @@ pipeline {
                 script {
                     // sh 'git checkout master'
                  
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerHubCredentials') {
-                        def app = docker.build("renegmedal/petclinic-spinnaker-jenkins")
-                        // app.push()
-                        // app.push("latest")
-                    }
+                    // docker.withRegistry('https://registry.hub.docker.com', 'dockerHubCredentials') {
+                    //     def app = docker.build("renegmedal/petclinic-spinnaker-jenkins")
+                    //     // app.push()
+                    //     // app.push("latest")
+                    // }
 
                     // sh 'docker build --tag renegmedal/petclinic-spinnaker-jenkins .'
-                    // dockerImage = docker.build registry + ":$BUILD_NUMBER"                     
+                    // dockerImage = docker.build registry + ":$BUILD_NUMBER"      
+
+                    sh 'make build'
+                    sh 'make push'               
                 }
             }
         }
