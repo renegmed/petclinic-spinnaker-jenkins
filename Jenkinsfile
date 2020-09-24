@@ -53,9 +53,10 @@ pipeline {
                     docker.withRegistry('', 'dockerHubCredentials') {
                         def customImage = docker.build("renegmedal/petclinic-spinnaker-jenkins:latest")
                         customerImage.inside {
-                            sh 'docker push renegmedal/petclinic-spinnaker-jenkins:latest'
+                            //sh 'docker push renegmedal/petclinic-spinnaker-jenkins:latest'
+                            customImage.push()
                         }
-                        // customImage.push()
+                       
                     }           
                 }
             }
