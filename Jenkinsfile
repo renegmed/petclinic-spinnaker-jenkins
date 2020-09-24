@@ -34,8 +34,8 @@ pipeline {
             //     branch 'master'
             // }
             steps {               
-                echo '=== Building Petclinic Docker Image ==='
-                script {
+                echo '=== Building and Pushing Petclinic Docker Image ==='
+                node {
                     // sh 'git checkout master'
                  
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerHubCredentials') {
