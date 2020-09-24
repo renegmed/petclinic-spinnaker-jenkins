@@ -17,17 +17,17 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package' 
             }
         }
-        stage('Test Application') {
-            steps {
-                echo '=== Testing Petclinic Application ==='
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
-            }
-        }
+        // stage('Test Application') {
+        //     steps {
+        //         echo '=== Testing Petclinic Application ==='
+        //         sh 'mvn test'
+        //     }
+        //     post {
+        //         always {
+        //             junit 'target/surefire-reports/*.xml'
+        //         }
+        //     }
+        // }
         stage('Build Docker Image') {
            
             // when {
@@ -37,8 +37,8 @@ pipeline {
                 echo '=== Building Petclinic Docker Image ==='
                 script {
                     // sh 'git checkout master'
-                    app = docker.build("renegmedal/petclinic-spinnaker-jenkins")
-                    // sh 'docker build --tag renegmedal/petclinic-spinnaker-jenkins .'
+                    // app = docker.build("renegmedal/petclinic-spinnaker-jenkins")
+                    sh 'docker build --tag renegmedal/petclinic-spinnaker-jenkins .'
                     // dockerImage = docker.build registry + ":$BUILD_NUMBER"                     
                 }
             }
@@ -51,16 +51,17 @@ pipeline {
                 echo '=== Pushing Petclinic Docker Image ==='
                 script {
                     // sh 'git checkout master'
-                    GIT_COMMIT_HASH = sh (script: "git log -n 1 --pretty=format:'%H'", returnStdout: true)
-                    SHORT_COMMIT = "${GIT_COMMIT_HASH[0..7]}"
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerHubCredentials') {
-                        app.push("$SHORT_COMMIT")
-                        app.push("latest")
-                    }
-                    // sh 'docker push renegmedal/petclinic-spinnaker-jenkins'
+                    // GIT_COMMIT_HASH = sh (script: "git log -n 1 --pretty=format:'%H'", returnStdout: true)
+                    // SHORT_COMMIT = "${GIT_COMMIT_HASH[0..7]}"
                     // docker.withRegistry('https://registry.hub.docker.com', 'dockerHubCredentials') {
-                    //     sh 'docker push renegmedal/petclinic-spinnaker-jenkins:latest'
+                    //     app.push("$SHORT_COMMIT")
+                    //     app.push("latest")
                     // }
+                    // sh 'docker push renegmedal/petclinic-spinnaker-jenkins'
+                    
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerHubCredentials') {
+                        sh 'docker push renegmedal/petclinic-spinnaker-jenkins:latest'
+                    }
 
                     // docker.withRegistry( '', registryCredential ) {
                     //     dockerImage.push()
