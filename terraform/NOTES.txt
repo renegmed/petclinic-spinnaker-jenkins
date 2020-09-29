@@ -1,0 +1,15 @@
+Status: working 
+
+
+$> chmod 400 kuber-key-pair.pem 
+
+$> ssh -i kuber-key-pair.pem ec2-user@3.238.38.83
+
+
+Plugins:
+
+Docker API
+Docker 
+Icon Shim 
+GitHub Integration 
+Docker Pipeline 
