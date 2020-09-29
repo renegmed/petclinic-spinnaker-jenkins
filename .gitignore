@@ -17,3 +17,5 @@ _site/
 terraform/.terraform/*
 terraform/terraform.tfstate.backup
 terraform/terraform.tfstate
+kuber-key-pair.pem
+
